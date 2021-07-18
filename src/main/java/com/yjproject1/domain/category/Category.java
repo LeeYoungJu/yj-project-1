@@ -1,13 +1,13 @@
 package com.yjproject1.domain.category;
 
+import com.yjproject1.domain.schedule.Schedule;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -18,6 +18,9 @@ public class Category {
     private Long id;
 
     private String tag;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Schedule> schedules = new ArrayList<>();
 
     @Builder
     public Category(String tag) {

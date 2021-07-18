@@ -1,6 +1,7 @@
 package com.yjproject1.domain.schedule;
 
 import com.yjproject1.domain.BaseTimeEntity;
+import com.yjproject1.domain.category.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,13 @@ public class Schedule extends BaseTimeEntity {
     @OneToMany(mappedBy = "schedule")
     private List<ScheduleDay> scheduleDays = new ArrayList<>();
 
-    @OneToMany(mappedBy = "schedule")
-    private List<ScheduleCategory> scheduleCategories = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "schedule_category",
+            joinColumns = @JoinColumn(name = "category_id"),
+            inverseJoinColumns = @JoinColumn(name = "schedule_id")
+    )
+    private List<Category> categories = new ArrayList<>();
 
     @Builder
     public Schedule(String title, String description) {

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -26,7 +27,7 @@ public class Group extends BaseTimeEntity {
     private List<UserGroup> userGroups;
 
     @OneToMany(mappedBy = "group")
-    private List<ScheduleGroup> scheduleGroups;
+    private List<ScheduleGroup> scheduleGroups = new ArrayList<>();
 
     @Builder
     public Group(String name) {
