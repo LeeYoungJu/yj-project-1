@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 public class ScheduleUser extends Schedule {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

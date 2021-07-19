@@ -42,7 +42,7 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<UserGroup> userGroups = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ScheduleUser> scheduleUsers = new ArrayList<>();
 
     @Builder

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
+@DiscriminatorColumn(name = "DTYPE")
 @Getter
 @NoArgsConstructor
 public class Schedule extends BaseTimeEntity {
