@@ -24,7 +24,7 @@ public class Schedule extends BaseTimeEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.PERSIST)
     private List<ScheduleDay> scheduleDays = new ArrayList<>();
 
     @ManyToMany
@@ -35,9 +35,4 @@ public class Schedule extends BaseTimeEntity {
     )
     private List<Category> categories = new ArrayList<>();
 
-    @Builder
-    public Schedule(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
 }

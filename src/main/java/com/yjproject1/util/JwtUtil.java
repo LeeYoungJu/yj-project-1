@@ -14,6 +14,8 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
+    public static String JWT;
+
     private String SECRET_KEY = "eikjdf8939seknf";
 
     public String extractUsername(String token) {

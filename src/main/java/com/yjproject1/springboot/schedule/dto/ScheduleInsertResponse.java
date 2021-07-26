@@ -5,9 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 public class ScheduleInsertResponse {
+    private Long id;
     private String title;
 
-    public ScheduleInsertResponse(String title) {
+    public ScheduleInsertResponse(Long id, String title) {
+        this.id = id;
         this.title = title;
     }
 }

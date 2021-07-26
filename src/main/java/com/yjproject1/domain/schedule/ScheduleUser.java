@@ -14,6 +14,9 @@ import java.util.List;
 @Entity
 public class ScheduleUser extends Schedule {
 
+    private String title;
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -23,4 +26,13 @@ public class ScheduleUser extends Schedule {
         user.getScheduleUsers().add(this);
     }
 
+    @Builder
+    public ScheduleUser(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public List<ScheduleDay> getScheduleDays() {
+        return super.getScheduleDays();
+    }
 }

@@ -27,7 +27,7 @@ public class ScheduleDay {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @OneToMany(mappedBy = "scheduleDay")
+    @OneToMany(mappedBy = "scheduleDay", cascade = CascadeType.PERSIST)
     private List<ScheduleTime> scheduleTimes = new ArrayList<>();
 
     public void setSchedule(Schedule schedule) {

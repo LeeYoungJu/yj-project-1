@@ -1,5 +1,7 @@
 package com.yjproject1.springboot.schedule.dto;
 
+import com.yjproject1.domain.schedule.ScheduleDay;
+import com.yjproject1.domain.schedule.ScheduleTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,21 @@ public class DayInsertDto {
     private String day;
     private String description;
     private List<TimeInsertDto> times;
+
+    public ScheduleDay toEntity() {
+        ScheduleDay scheduleDay = ScheduleDay.builder()
+                .year(this.year)
+                .month(this.month)
+                .day(this.day)
+                .description(this.description)
+                .build();
+
+        for(TimeInsertDto timeInsertDto : this.times) {
+            timeInsertDto.toEntity().setScheduleDay(scheduleDay);
+        }
+
+        return scheduleDay;
+    }
 
     @Override
     public String toString() {
