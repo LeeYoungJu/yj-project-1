@@ -34,4 +34,10 @@ public class ScheduleTime {
         this.minute = minute;
         this.description = description;
     }
+
+    public void update(String hour, String minute, String description) {
+        this.hour = hour;
+        this.minute = minute;
+        this.description = description;
+    }
 }

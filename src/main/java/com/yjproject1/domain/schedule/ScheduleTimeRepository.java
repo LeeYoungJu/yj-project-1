@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface ScheduleTimeRepository extends JpaRepository<ScheduleTime, Long> {
 
+    List<ScheduleTime> findByScheduleDay(ScheduleDay scheduleDay);
+
     @Modifying
     @Query("delete from ScheduleTime st where st.scheduleDay in :days")
     void deleteAllByDays(@Param("days") List<ScheduleDay> days);
