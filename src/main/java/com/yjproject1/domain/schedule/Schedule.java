@@ -24,7 +24,7 @@ public class Schedule extends BaseTimeEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<ScheduleDay> scheduleDays = new ArrayList<>();
 
     @ManyToMany

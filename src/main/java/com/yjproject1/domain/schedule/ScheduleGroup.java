@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 public class ScheduleGroup extends Schedule {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 

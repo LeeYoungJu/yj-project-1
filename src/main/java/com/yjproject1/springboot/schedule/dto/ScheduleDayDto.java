@@ -1,5 +1,6 @@
 package com.yjproject1.springboot.schedule.dto;
 
+import com.yjproject1.domain.schedule.ScheduleDay;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,5 +17,14 @@ public class ScheduleDayDto {
         this.month = month;
         this.day = day;
         this.description = description;
+    }
+
+    public ScheduleDay toEntity() {
+        return ScheduleDay.builder()
+                .year(this.year)
+                .month(this.month)
+                .day(this.day)
+                .description(this.description)
+                .build();
     }
 }

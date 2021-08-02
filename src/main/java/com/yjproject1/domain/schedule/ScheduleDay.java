@@ -23,11 +23,11 @@ public class ScheduleDay {
 
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    @OneToMany(mappedBy = "scheduleDay", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "scheduleDay", cascade = CascadeType.ALL)
     private List<ScheduleTime> scheduleTimes = new ArrayList<>();
 
     public void setSchedule(Schedule schedule) {
@@ -37,6 +37,13 @@ public class ScheduleDay {
 
     @Builder
     public ScheduleDay(String year, String month, String day, String description) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.description = description;
+    }
+
+    public void update(String year, String month, String day, String description) {
         this.year = year;
         this.month = month;
         this.day = day;

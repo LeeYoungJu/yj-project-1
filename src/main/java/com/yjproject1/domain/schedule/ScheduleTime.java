@@ -19,7 +19,7 @@ public class ScheduleTime {
 
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_id")
     private ScheduleDay scheduleDay;
 
