@@ -1,5 +1,6 @@
 package com.yjproject1.springboot.user;
 
+import com.yjproject1.springboot.common.dto.ResponseDto;
 import com.yjproject1.springboot.user.dto.UserRequest;
 import com.yjproject1.springboot.user.dto.UserResponse;
 import com.yjproject1.util.JwtUtil;
@@ -31,13 +32,13 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(userRequest.getName(), userRequest.getPassword())
             );
         } catch(BadCredentialsException e) {
-            throw new Exception("Incorrect name or password", e);
+            return ResponseEntity.badRequest().body(ResponseDto.bad("400", "incorrect ID or PASSWORD"));
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(userRequest.getName());
         final String jwt = jwtUtil.generateToken(userDetails);
 
-        return ResponseEntity.ok(new UserResponse(jwt));
+        return ResponseEntity.ok(ResponseDto.ok(new UserResponse(jwt)));
     }
 
 }

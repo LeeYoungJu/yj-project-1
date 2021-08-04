@@ -31,14 +31,14 @@ public class ScheduleService {
     /*
      * schedule CRUD
      */
-    public Schedule save(ScheduleInsertDto scheduleInsertDto) {
+    public Schedule save(ScheduleInsertDto scheduleInsertDto) throws Exception {
         return scheduleRepository.save(scheduleInsertDto.toEntity());
     }
-    public List<UserScheduleFindDto> findByUser(User user) {
+    public List<UserScheduleFindDto> findByUser(User user) throws Exception {
         List<ScheduleUser> scheduleUsers = scheduleUserRepository.findByUser(user);
         return scheduleUsers.stream().map(obj -> new UserScheduleFindDto(obj.getTitle(), obj.getDescription(), obj.getScheduleDays())).collect(Collectors.toList());
     }
-    public void deleteSchedule(Long schedule_id) {
+    public void deleteSchedule(Long schedule_id) throws Exception {
         Schedule schedule = scheduleRepository.findById(schedule_id).orElseThrow(() -> new IllegalArgumentException("해당 스케쥴이 존재하지 않습니다."));
         scheduleTimeRepository.deleteAllByDays(scheduleDayRepository.findBySchedule(schedule));
         scheduleDayRepository.deleteAllBySchedule(schedule);
@@ -49,14 +49,14 @@ public class ScheduleService {
     /*
      * day CRUD
      */
-    public Long addDayToSchedule(Long schedule_id, List<ScheduleDayDto> listDayDto) {
+    public Long addDayToSchedule(Long schedule_id, List<ScheduleDayDto> listDayDto) throws Exception {
         Schedule schedule = scheduleRepository.findById(schedule_id).orElseThrow(() -> new IllegalArgumentException("해당 스케쥴이 존재하지 않습니다."));
         for(ScheduleDayDto scheduleDayDto : listDayDto) {
             scheduleDayRepository.save(scheduleDayDto.toEntity()).setSchedule(schedule);
         }
         return schedule_id;
     }
-    public List<ScheduleDayDto> findDaysByScheduleId(Long scheduleId) {
+    public List<ScheduleDayDto> findDaysByScheduleId(Long scheduleId) throws Exception {
         return scheduleDayRepository.findBySchedule(
                         scheduleRepository.findById(scheduleId).orElseThrow(() -> new IllegalArgumentException("해당 스케쥴이 존재하지 않습니다."))
                 ).stream().map((obj) -> ScheduleDayDto.builder()
@@ -67,7 +67,7 @@ public class ScheduleService {
                                                 .build()
                 ).collect(Collectors.toList());
     }
-    public Long updateScheduleDay(Long id, ScheduleDayDto scheduleDayDto) {
+    public Long updateScheduleDay(Long id, ScheduleDayDto scheduleDayDto) throws Exception {
         ScheduleDay scheduleDay = scheduleDayRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 일자의 스케쥴이 없습니다."));
         scheduleDay.update(scheduleDayDto.getYear()
                 , scheduleDayDto.getMonth()
@@ -76,7 +76,7 @@ public class ScheduleService {
         );
         return id;
     }
-    public void deleteDayInSchedule(User user, List<Long> listDayId) {
+    public void deleteDayInSchedule(User user, List<Long> listDayId) throws Exception {
         scheduleTimeRepository.deleteAllByDays(scheduleDayRepository.findByIds(listDayId));
         scheduleDayRepository.deleteAllByIds(listDayId);
     }
@@ -85,7 +85,7 @@ public class ScheduleService {
     /*
      * time CRUD
      */
-    public Long addTimeSchedule(Long dayId, ScheduleTimeDto scheduleTimeDto) {
+    public Long addTimeSchedule(Long dayId, ScheduleTimeDto scheduleTimeDto) throws Exception {
         ScheduleDay scheduleDay = scheduleDayRepository.findById(dayId).orElseThrow(() -> new IllegalArgumentException("해당 일자의 스케쥴이 없습니다."));
         ScheduleTime scheduleTime = scheduleTimeDto.toEntity();
         ScheduleTime savedScheduleTime = scheduleTimeRepository.save(scheduleTime);
@@ -93,7 +93,7 @@ public class ScheduleService {
 
         return savedScheduleTime.getId();
     }
-    public List<ScheduleTimeDto> findTimesInDay(Long dayId) {
+    public List<ScheduleTimeDto> findTimesInDay(Long dayId) throws Exception {
         return scheduleTimeRepository.findByScheduleDay(
                 scheduleDayRepository.findById(dayId).orElseThrow(() -> new IllegalArgumentException("해당 일자의 스케쥴이 없습니다."))
         ).stream().map((obj) -> ScheduleTimeDto.builder()
@@ -103,7 +103,7 @@ public class ScheduleService {
                 .build()
         ).collect(Collectors.toList());
     }
-    public Long updateScheduleTime(Long id, ScheduleTimeDto scheduleTimeDto) {
+    public Long updateScheduleTime(Long id, ScheduleTimeDto scheduleTimeDto) throws Exception {
         ScheduleTime scheduleTime = scheduleTimeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 시간의 스케쥴이 없습니다."));
         scheduleTime.update(scheduleTimeDto.getHour()
                         , scheduleTimeDto.getMinute()
@@ -111,7 +111,7 @@ public class ScheduleService {
         );
         return id;
     }
-    public void deleteScheduleTime(Long id) {
+    public void deleteScheduleTime(Long id) throws Exception {
         scheduleTimeRepository.delete(
                 scheduleTimeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 시간의  스케쥴이 없습니다."))
         );
