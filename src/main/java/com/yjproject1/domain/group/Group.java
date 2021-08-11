@@ -24,7 +24,7 @@ public class Group extends BaseTimeEntity {
     private String name;
 
     @OneToMany(mappedBy = "group")
-    private List<UserGroup> userGroups;
+    private List<UserGroup> userGroups = new ArrayList<>();
 
     @OneToMany(mappedBy = "group")
     private List<ScheduleGroup> scheduleGroups = new ArrayList<>();

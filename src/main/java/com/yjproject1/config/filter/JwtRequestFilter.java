@@ -3,6 +3,7 @@ package com.yjproject1.config.filter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yjproject1.springboot.common.dto.ResponseDto;
+import com.yjproject1.springboot.common.dto.ResponseStatus;
 import com.yjproject1.springboot.common.dto.STATUS_CODE;
 import com.yjproject1.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,9 +26,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@RequiredArgsConstructor
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
+    private final ObjectMapper objectMapper;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -66,15 +68,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
             response.setStatus(HttpStatus.BAD_REQUEST.value());
-            response.getWriter().write(convertObjectToJson(ResponseDto.bad(STATUS_CODE.BAD, "Invalid token")));
-        }
-    }
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-    public String convertObjectToJson(Object object) throws JsonProcessingException {
-        if (object == null) {
-            return null;
+            ResponseDto errorObj = new ResponseDto(ResponseStatus.builder().code(STATUS_CODE.BAD).msg("Invalid token").build(), null);
+
+            objectMapper.writeValue(response.getWriter(), errorObj);
         }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
     }
 }

@@ -33,34 +33,26 @@ public class ScheduleController {
             scheduleInsertDto.setUser(user);
             Schedule schedule = scheduleService.save(scheduleInsertDto);
 
-            return ResponseEntity.ok(
-                    ResponseDto.ok(new ScheduleInsertResponse(schedule.getId(), schedule.getTitle()))
-            );
+            return ResponseDto.ok(new ScheduleInsertResponse(schedule.getId(), schedule.getTitle()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @GetMapping("/schedule/findAll")
     public ResponseEntity<?> getUserSchedule() {
         try {
-            return ResponseEntity.ok(ResponseDto.ok(scheduleService.findByUser(userService.findMy())));
+            return ResponseDto.ok(scheduleService.findByUser(userService.findMy()));
         } catch(Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @DeleteMapping("schedule")
     public ResponseEntity<?> deleteSchedule(@RequestBody Long id) {
         try {
             scheduleService.deleteSchedule(id);
-            return ResponseEntity.ok(ResponseDto.ok(id));
+            return ResponseDto.ok(id);
         } catch(Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
 
@@ -70,37 +62,25 @@ public class ScheduleController {
     @PostMapping("/schedule/day/{scheduleId}")
     public ResponseEntity<?> addDayToSchedule(@PathVariable(name = "scheduleId") Long id, @RequestBody List<ScheduleDayDto> listDayDto) {
         try {
-            return ResponseEntity.ok(
-                    ResponseDto.ok(scheduleService.addDayToSchedule(id, listDayDto))
-            );
+            return ResponseDto.ok(scheduleService.addDayToSchedule(id, listDayDto));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @GetMapping("/schedule/day/{scheduleId}")
     public ResponseEntity<?> getDaysBySchedule(@PathVariable(name = "scheduleId") Long id) {
         try {
-            return ResponseEntity.ok(
-                    ResponseDto.ok(scheduleService.findDaysByScheduleId(id))
-            );
+            return ResponseDto.ok(scheduleService.findDaysByScheduleId(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @PutMapping("schedule/day/{id}")
     public ResponseEntity<?> updateDaySchedule(@PathVariable(name = "id") Long id, @RequestBody ScheduleDayDto scheduleDayDto) {
         try {
-            return ResponseEntity.ok(
-                    ResponseDto.ok(scheduleService.updateScheduleDay(id, scheduleDayDto))
-            );
+            return ResponseDto.ok(scheduleService.updateScheduleDay(id, scheduleDayDto));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @DeleteMapping("schedule/day")
@@ -108,13 +88,9 @@ public class ScheduleController {
         try {
             User user = userService.findMy();
             scheduleService.deleteDayInSchedule(user, ids);
-            return ResponseEntity.ok(
-                    ResponseDto.ok(ids)
-            );
+            return ResponseDto.ok(ids);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
 
@@ -124,50 +100,34 @@ public class ScheduleController {
     @PostMapping("schedule/time/{dayId}")
     public ResponseEntity<?> insertTimeSchedule(@PathVariable(name = "dayId") Long id, @RequestBody ScheduleTimeDto scheduleTimeDto) {
         try {
-            return ResponseEntity.ok(
-                    ResponseDto.ok(scheduleService.addTimeSchedule(id, scheduleTimeDto))
-            );
+            return ResponseDto.ok(scheduleService.addTimeSchedule(id, scheduleTimeDto));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @GetMapping("schedule/time/{dayId}")
     public ResponseEntity<?> getTimesByDay(@PathVariable(name = "dayId") Long id) {
         try {
-            return ResponseEntity.ok(
-                    ResponseDto.ok(scheduleService.findTimesInDay(id))
-            );
+            return ResponseDto.ok(scheduleService.findTimesInDay(id));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @PutMapping("schedule/time/{id}")
     public ResponseEntity<?> updateTimeSchedule(@PathVariable(name = "id") Long id, @RequestBody ScheduleTimeDto scheduleTimeDto) {
         try {
-            return ResponseEntity.ok(
-                    ResponseDto.ok(scheduleService.updateScheduleTime(id, scheduleTimeDto))
-            );
+            return ResponseDto.ok(scheduleService.updateScheduleTime(id, scheduleTimeDto));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
     @DeleteMapping("schedule/time/{id}")
     public ResponseEntity<?> deleteTimeSchedule(@PathVariable(name = "id") Long id) {
         try {
             scheduleService.deleteScheduleTime(id);
-            return ResponseEntity.ok(
-                    ResponseDto.ok(id)
-            );
+            return ResponseDto.ok(id);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                    ResponseDto.bad(STATUS_CODE.BAD, e.getMessage())
-            );
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }
     }
 

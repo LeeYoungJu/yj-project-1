@@ -2,6 +2,7 @@ package com.yjproject1.springboot.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.http.ResponseEntity;
 
 @Getter
 public class ResponseDto {
@@ -14,17 +15,18 @@ public class ResponseDto {
         this.data = data;
     }
 
-    public static ResponseDto ok(Object data) {
-        return new ResponseDto(
+    public static ResponseEntity<ResponseDto> ok(Object data) {
+        return ResponseEntity.ok(new ResponseDto(
                 ResponseStatus.builder().code("200").msg("ok").build(),
                 data
-        );
+        ));
     }
 
-    public static ResponseDto bad(String code, String msg) {
-        return new ResponseDto(
+    public static ResponseEntity<ResponseDto> bad(String code, String msg) {
+        return ResponseEntity.badRequest().body(
+                new ResponseDto(
                 ResponseStatus.builder().code(code).msg(msg).build(),
                 null
-        );
+        ));
     }
 }
