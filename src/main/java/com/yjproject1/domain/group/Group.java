@@ -23,7 +23,7 @@ public class Group extends BaseTimeEntity {
     @Column
     private String name;
 
-    @OneToMany(mappedBy = "group")
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL)
     private List<UserGroup> userGroups = new ArrayList<>();
 
     @OneToMany(mappedBy = "group")

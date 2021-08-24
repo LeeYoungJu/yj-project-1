@@ -11,6 +11,13 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"user_id", "group_id"}
+                )
+        }
+)
 public class UserGroup extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
