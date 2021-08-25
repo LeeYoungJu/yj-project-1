@@ -26,6 +26,10 @@ public class GroupService {
 
     private final UserService userService;
 
+    public Group findById(Long groupId) throws Exception {
+        return groupRepository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("해당 그룹이 존재하지 않습니다."));
+    }
+
     public Long createGroup(GroupDto groupDto) throws Exception {
         Group group = groupRepository.save(groupDto.toEntity());
         User user = userService.findMy();

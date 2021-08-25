@@ -1,20 +1,18 @@
 package com.yjproject1.springboot.schedule;
 
+import com.yjproject1.domain.group.Group;
 import com.yjproject1.domain.schedule.Schedule;
-import com.yjproject1.domain.schedule.ScheduleUser;
 import com.yjproject1.domain.user.User;
 import com.yjproject1.springboot.common.dto.ResponseDto;
 import com.yjproject1.springboot.common.dto.STATUS_CODE;
+import com.yjproject1.springboot.group.GroupService;
 import com.yjproject1.springboot.schedule.dto.*;
 import com.yjproject1.springboot.user.UserService;
-import com.yjproject1.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,16 +20,17 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     private final UserService userService;
+    private final GroupService groupService;
 
     /*
      * schedule CRUD
      */
     @PostMapping("/schedule")
-    public ResponseEntity<?> postSchedule(@RequestBody ScheduleInsertDto scheduleInsertDto) {
+    public ResponseEntity<?> postSchedule(@RequestBody UserScheduleInsertDto userScheduleInsertDto) {
         try {
             User user = userService.findMy();
-            scheduleInsertDto.setUser(user);
-            Schedule schedule = scheduleService.save(scheduleInsertDto);
+            userScheduleInsertDto.setUser(user);
+            Schedule schedule = scheduleService.save(userScheduleInsertDto);
 
             return ResponseDto.ok(new ScheduleInsertResponse(schedule.getId(), schedule.getTitle()));
         } catch (Exception e) {
@@ -126,6 +125,22 @@ public class ScheduleController {
         try {
             scheduleService.deleteScheduleTime(id);
             return ResponseDto.ok(id);
+        } catch (Exception e) {
+            return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
+        }
+    }
+
+    /*
+     * group schedule CRUD
+     */
+    @PostMapping("/group/schedule/{group_id}")
+    public ResponseEntity<?> postGroupSchedule(@PathVariable(name = "group_id") Long groupId, @RequestBody GroupScheduleInsertDto groupScheduleInsertDto) {
+        try {
+            Group group = groupService.findById(groupId);
+            groupScheduleInsertDto.setGroup(group);
+            Schedule schedule = scheduleService.saveGroupSchedule(groupScheduleInsertDto);
+
+            return ResponseDto.ok(new ScheduleInsertResponse(schedule.getId(), schedule.getTitle()));
         } catch (Exception e) {
             return ResponseDto.bad(STATUS_CODE.BAD, e.getMessage());
         }

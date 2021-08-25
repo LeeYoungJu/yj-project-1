@@ -3,10 +3,7 @@ package com.yjproject1.springboot.schedule;
 import com.yjproject1.domain.schedule.*;
 import com.yjproject1.domain.user.User;
 import com.yjproject1.domain.user.UserRepository;
-import com.yjproject1.springboot.schedule.dto.ScheduleDayDto;
-import com.yjproject1.springboot.schedule.dto.ScheduleInsertDto;
-import com.yjproject1.springboot.schedule.dto.ScheduleTimeDto;
-import com.yjproject1.springboot.schedule.dto.UserScheduleFindDto;
+import com.yjproject1.springboot.schedule.dto.*;
 import com.yjproject1.springboot.user.UserService;
 import com.yjproject1.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +28,8 @@ public class ScheduleService {
     /*
      * schedule CRUD
      */
-    public Schedule save(ScheduleInsertDto scheduleInsertDto) throws Exception {
-        return scheduleRepository.save(scheduleInsertDto.toEntity());
+    public Schedule save(UserScheduleInsertDto userScheduleInsertDto) throws Exception {
+        return scheduleRepository.save(userScheduleInsertDto.toEntity());
     }
     public List<UserScheduleFindDto> findByUser(User user) throws Exception {
         List<ScheduleUser> scheduleUsers = scheduleUserRepository.findByUser(user);
@@ -115,5 +112,9 @@ public class ScheduleService {
         scheduleTimeRepository.delete(
                 scheduleTimeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 시간의  스케쥴이 없습니다."))
         );
+    }
+
+    public Schedule saveGroupSchedule(GroupScheduleInsertDto groupScheduleInsertDto) throws Exception {
+        return scheduleRepository.save(groupScheduleInsertDto.toEntity());
     }
 }

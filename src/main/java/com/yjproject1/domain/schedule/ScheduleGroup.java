@@ -1,6 +1,7 @@
 package com.yjproject1.domain.schedule;
 
 import com.yjproject1.domain.group.Group;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,9 @@ import java.util.List;
 @Entity
 public class ScheduleGroup extends Schedule {
 
+    private String title;
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
@@ -20,5 +24,11 @@ public class ScheduleGroup extends Schedule {
     public void setGroup(Group group) {
         this.group = group;
         group.getScheduleGroups().add(this);
+    }
+
+    @Builder
+    public ScheduleGroup(String title, String description) {
+        this.title = title;
+        this.description = description;
     }
 }
