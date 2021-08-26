@@ -66,4 +66,5 @@ public class GroupService {
         UserGroup userGroup = userGroupRepository.findByGroupAndUser(group, user);
         userGroupRepository.delete(userGroup);
     }
+
 }
